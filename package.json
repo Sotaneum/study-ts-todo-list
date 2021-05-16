@@ -1,0 +1,43 @@
+{
+  "name": "study-ts-todo-list",
+  "version": "1.0.0",
+  "description": "typescript로 todo list 만들어봅니다.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack serve --mode development",
+    "build": "webpack",
+    "lint": "eslint '**'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sotaneum/study-ts-todo-list.git"
+  },
+  "keywords": [
+    "todolist"
+  ],
+  "author": "donggun lee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sotaneum/study-ts-todo-list/issues"
+  },
+  "homepage": "https://github.com/Sotaneum/study-ts-todo-list#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.3.0",
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.5",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "prettier": "^2.3.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "ts-loader": "^9.1.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
