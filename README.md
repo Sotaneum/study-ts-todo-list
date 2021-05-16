@@ -1,11 +1,13 @@
 # study-ts-todo-list
+
 - Typescript 기반 Todo list입니다.
 
 ## todo-list
-- [ ] todo 추가
-- [ ] todo 목록
-- [ ] todo 삭제
-- [ ] todo 편집
+
+- [x] todo 추가
+- [x] todo 목록
+- [x] todo 삭제
+- [x] todo 편집
 
 ## 목적
 
@@ -13,6 +15,16 @@
 
 ## Build
 
+```bash
+npm run build
+```
+
 ## Run
 
+```bash
+npm run dev
+```
+
 ## Demo
+
+- 준비중
