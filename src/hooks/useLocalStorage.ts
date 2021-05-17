@@ -10,7 +10,7 @@ const useLocalStorage = <T>(
     const getItem = () => localStorage.getItem(key);
     const setItem = (value: string) => localStorage.setItem(key, value);
 
-    const loadData = () => onLoad(getItem());
+    const loadData = () => onLoad(getItem() || JSON.stringify(defaultValue));
     const saveData = (data: T) => setItem(onSave(data));
 
     const [value, setValue] = useState(loadData() || defaultValue);
