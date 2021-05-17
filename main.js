@@ -29828,8 +29828,6 @@ var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/r
 var Home_1 = __importDefault(__webpack_require__(/*! @/pages/Home */ "./src/pages/Home.tsx"));
 function default_1() {
     return (react_1.default.createElement("div", null,
-        "ver : 2",
-        react_1.default.createElement("br", null),
         react_1.default.createElement(Home_1.default, null)));
 }
 exports.default = default_1;
