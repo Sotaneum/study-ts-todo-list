@@ -29827,8 +29827,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var Home_1 = __importDefault(__webpack_require__(/*! @/pages/Home */ "./src/pages/Home.tsx"));
 function default_1() {
-    return (react_1.default.createElement("div", null,
-        react_1.default.createElement(Home_1.default, null)));
+    return react_1.default.createElement(Home_1.default, null);
 }
 exports.default = default_1;
 
@@ -29849,9 +29848,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var AddInput = function (_a) {
     var item = _a.item, onClick = _a.onClick, onChange = _a.onChange;
+    var isModify = !!(item === null || item === void 0 ? void 0 : item.idx);
     return (react_1.default.createElement("div", null,
         react_1.default.createElement("input", { value: (item === null || item === void 0 ? void 0 : item.title) || '', onChange: onChange }),
-        react_1.default.createElement("button", { onClick: onClick }, "\uCD94\uAC00")));
+        react_1.default.createElement("button", { onClick: onClick }, isModify ? '저장' : '추가')));
 };
 exports.default = AddInput;
 
@@ -29871,18 +29871,63 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var ItemList = function (_a) {
-    var items = _a.items, onDelete = _a.onDelete, onModify = _a.onModify;
+    var items = _a.items, onDelete = _a.onDelete, onModify = _a.onModify, onComplete = _a.onComplete;
     return (react_1.default.createElement("div", null, items.map(function (item) {
         var handleClickModify = function () { return onModify(item); };
-        var handleClickDelete = function () { return onDelete(item.idx); };
+        var handleClickDelete = function () { return onDelete(item); };
+        var handleClickComplete = function () { return onComplete(item); };
         return (react_1.default.createElement("div", { key: item.idx },
-            item.title,
-            " ",
+            react_1.default.createElement("h4", { style: { textDecoration: (item === null || item === void 0 ? void 0 : item.isComplete) ? 'line-through' : 'none' } }, item.title),
             react_1.default.createElement("button", { onClick: handleClickDelete }, "\uC0AD\uC81C"),
-            react_1.default.createElement("button", { onClick: handleClickModify }, "\uC218\uC815")));
+            react_1.default.createElement("button", { onClick: handleClickModify }, "\uC218\uC815"),
+            react_1.default.createElement("button", { onClick: handleClickComplete }, (item === null || item === void 0 ? void 0 : item.isComplete) ? '복원' : '완료')));
     })));
 };
 exports.default = ItemList;
+
+
+/***/ }),
+
+/***/ "./src/hooks/useLocalStorage.ts":
+/*!**************************************!*\
+  !*** ./src/hooks/useLocalStorage.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var useLocalStorage = function (key, defaultValue, onLoad, onSave) {
+    try {
+        var getItem_1 = function () { return localStorage.getItem(key); };
+        var setItem_1 = function (value) { return localStorage.setItem(key, value); };
+        var loadData_1 = function () { return onLoad(getItem_1()); };
+        var saveData_1 = function (data) { return setItem_1(onSave(data)); };
+        var _a = react_1.useState(loadData_1() || defaultValue), value = _a[0], setValue_1 = _a[1];
+        var updateValue_1 = function () { return setValue_1(loadData_1()); };
+        react_1.useEffect(function () {
+            updateValue_1();
+        }, [getItem_1()]);
+        react_1.useEffect(function () {
+            // localStorage 기준으로 각 페이지 동기화 코드
+            window.addEventListener('focus', updateValue_1);
+            return function () { return window.removeEventListener('focus', updateValue_1); };
+        }, []);
+        return [
+            value,
+            function (data) {
+                saveData_1(data);
+                updateValue_1();
+            },
+        ];
+    }
+    catch (_b) {
+        var _c = react_1.useState(defaultValue), value = _c[0], setValue = _c[1];
+        console.warn('localStorage가 동작하지 않는 환경입니다. 다른 페이지 혹은 새로고침 했을 경우 데이터가 복원되지 않습니다.');
+        return [value, setValue];
+    }
+};
+exports.default = useLocalStorage;
 
 
 /***/ }),
@@ -29955,28 +30000,44 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var AddInput_1 = __importDefault(__webpack_require__(/*! @/components/AddInput */ "./src/components/AddInput.tsx"));
 var ItemList_1 = __importDefault(__webpack_require__(/*! @/components/ItemList */ "./src/components/ItemList.tsx"));
+var useLocalStorage_1 = __importDefault(__webpack_require__(/*! @/hooks/useLocalStorage */ "./src/hooks/useLocalStorage.ts"));
 var Home = function () {
-    var _a = react_1.useState(0), lastIdx = _a[0], setLastIdx = _a[1];
-    var _b = react_1.useState([]), items = _b[0], setItems = _b[1];
-    var _c = react_1.useState({}), newItem = _c[0], setNewItem = _c[1];
-    var handleChangeItem = function (e) {
-        return setNewItem(__assign(__assign({}, newItem), { title: e.target.value }));
+    var toItems = function (value) { return Array.from(JSON.parse(value)); };
+    var _a = react_1.useState({}), newItem = _a[0], setNewItem = _a[1];
+    var _b = useLocalStorage_1.default('items', [], toItems, JSON.stringify), items = _b[0], setItems = _b[1];
+    var _c = useLocalStorage_1.default('lastIdx', 0, Number, JSON.stringify), lastIdx = _c[0], setLastIdx = _c[1];
+    var clearNewItem = function () { return setNewItem({}); };
+    var getNewIdx = function () {
+        var newIdx = lastIdx;
+        setLastIdx(newIdx + 1);
+        return newIdx;
     };
-    var handleClickItemRemove = function (idx) { return setItems(items.filter(function (item) { return item.idx !== idx; })); };
+    // Item
+    var setItemTitle = function (item, title) { return (__assign(__assign({}, item), { title: title })); };
+    var setItemIndex = function (item, index) { return (__assign(__assign({}, item), { idx: index })); };
+    var setItemStatus = function (item, isComplete) { return (__assign(__assign({}, item), { isComplete: isComplete })); };
+    // Item[]
+    var addItem = function (targetItem) { return __spreadArray(__spreadArray([], items), [setItemIndex(targetItem, getNewIdx())]); };
+    var removeItem = function (targetItem) { return items.filter(function (item) { return item.idx !== targetItem.idx; }); };
+    var replaceItem = function (targetItem) {
+        return items.map(function (prevItem) { return (prevItem.idx !== targetItem.idx ? prevItem : targetItem); });
+    };
+    // handler
+    var handleClickItemRemove = function (item) { return setItems(removeItem(item)); };
     var handleClickModifyItem = function (item) { return setNewItem(item); };
+    var handleChangeItem = function (e) {
+        return setNewItem(setItemTitle(newItem, e.target.value));
+    };
+    var handleClickItemComplete = function (item) {
+        return setItems(replaceItem(setItemStatus(item, !(item === null || item === void 0 ? void 0 : item.isComplete))));
+    };
     var handleClickAddItem = function () {
-        if (!!(newItem === null || newItem === void 0 ? void 0 : newItem.idx)) {
-            setItems(items.map(function (item) { return (item.idx === newItem.idx ? newItem : item); }));
-            setNewItem({});
-            return;
-        }
-        setItems(__spreadArray(__spreadArray([], items), [__assign(__assign({}, newItem), { idx: lastIdx })]));
-        setLastIdx(lastIdx + 1);
-        setNewItem({});
+        setItems(!!(newItem === null || newItem === void 0 ? void 0 : newItem.idx) ? replaceItem(newItem) : addItem(newItem));
+        clearNewItem();
     };
     return (react_1.default.createElement("div", null,
         react_1.default.createElement(AddInput_1.default, { item: newItem, onClick: handleClickAddItem, onChange: handleChangeItem }),
-        react_1.default.createElement(ItemList_1.default, { items: items, onModify: handleClickModifyItem, onDelete: handleClickItemRemove })));
+        react_1.default.createElement(ItemList_1.default, { items: items, onModify: handleClickModifyItem, onDelete: handleClickItemRemove, onComplete: handleClickItemComplete })));
 };
 exports.default = Home;
 
