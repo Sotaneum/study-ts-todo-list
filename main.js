@@ -29898,35 +29898,27 @@ exports.default = ItemList;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var useLocalStorage = function (key, defaultValue, onLoad, onSave) {
-    try {
-        var getItem_1 = function () { return localStorage.getItem(key); };
-        var setItem_1 = function (value) { return localStorage.setItem(key, value); };
-        var loadData_1 = function () { return onLoad(getItem_1()); };
-        var saveData_1 = function (data) { return setItem_1(onSave(data)); };
-        var _a = react_1.useState(loadData_1() || defaultValue), value = _a[0], setValue_1 = _a[1];
-        var updateValue_1 = function () { return setValue_1(loadData_1()); };
-        react_1.useEffect(function () {
-            updateValue_1();
-        }, [getItem_1()]);
-        react_1.useEffect(function () {
-            // localStorage 기준으로 각 페이지 동기화 코드
-            window.addEventListener('focus', updateValue_1);
-            return function () { return window.removeEventListener('focus', updateValue_1); };
-        }, []);
-        return [
-            value,
-            function (data) {
-                saveData_1(data);
-                updateValue_1();
-            },
-        ];
-    }
-    catch (_b) {
-        var _c = react_1.useState(defaultValue), value = _c[0], setValue = _c[1];
-        console.log(localStorage);
-        console.warn('localStorage가 동작하지 않는 환경입니다. 다른 페이지 혹은 새로고침 했을 경우 데이터가 복원되지 않습니다.');
-        return [value, setValue];
-    }
+    var getItem = function () { return localStorage.getItem(key); };
+    var setItem = function (value) { return localStorage.setItem(key, value); };
+    var loadData = function () { return onLoad(getItem()); };
+    var saveData = function (data) { return setItem(onSave(data)); };
+    var _a = react_1.useState(loadData() || defaultValue), value = _a[0], setValue = _a[1];
+    var updateValue = function () { return setValue(loadData()); };
+    react_1.useEffect(function () {
+        updateValue();
+    }, [getItem()]);
+    react_1.useEffect(function () {
+        // localStorage 기준으로 각 페이지 동기화 코드
+        window.addEventListener('focus', updateValue);
+        return function () { return window.removeEventListener('focus', updateValue); };
+    }, []);
+    return [
+        value,
+        function (data) {
+            saveData(data);
+            updateValue();
+        },
+    ];
 };
 exports.default = useLocalStorage;
 
