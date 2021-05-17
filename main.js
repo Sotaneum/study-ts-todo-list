@@ -29900,7 +29900,7 @@ var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var useLocalStorage = function (key, defaultValue, onLoad, onSave) {
     var getItem = function () { return localStorage.getItem(key); };
     var setItem = function (value) { return localStorage.setItem(key, value); };
-    var loadData = function () { return onLoad(getItem()); };
+    var loadData = function () { return onLoad(getItem() || ''); };
     var saveData = function (data) { return setItem(onSave(data)); };
     var _a = react_1.useState(loadData() || defaultValue), value = _a[0], setValue = _a[1];
     var updateValue = function () { return setValue(loadData()); };
