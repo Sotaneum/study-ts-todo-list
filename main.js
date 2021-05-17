@@ -29899,9 +29899,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var useLocalStorage = function (key, defaultValue, onLoad, onSave) {
     try {
-        var getItem_1 = function () { return localStorage.getItem(key); };
+        var getItem_1 = function () { return localStorage.getItem(key) || onSave(defaultValue); };
         var setItem_1 = function (value) { return localStorage.setItem(key, value); };
-        var loadData_1 = function () { return onLoad(getItem_1() || JSON.stringify(defaultValue)); };
+        var loadData_1 = function () { return onLoad(getItem_1()); };
         var saveData_1 = function (data) { return setItem_1(onSave(data)); };
         var _a = react_1.useState(loadData_1() || defaultValue), value = _a[0], setValue_1 = _a[1];
         var updateValue_1 = function () { return setValue_1(loadData_1()); };
