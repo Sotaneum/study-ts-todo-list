@@ -8,10 +8,11 @@ type AddInputProps = {
 };
 
 const AddInput: React.FC<AddInputProps> = ({ item, onClick, onChange }) => {
+  const isModify: boolean = !!item?.idx;
   return (
     <div>
       <input value={item?.title || ''} onChange={onChange} />
-      <button onClick={onClick}>추가</button>
+      <button onClick={onClick}>{isModify ? '저장' : '추가'}</button>
     </div>
   );
 };
