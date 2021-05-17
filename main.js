@@ -29923,6 +29923,7 @@ var useLocalStorage = function (key, defaultValue, onLoad, onSave) {
     }
     catch (_b) {
         var _c = react_1.useState(defaultValue), value = _c[0], setValue = _c[1];
+        console.log(localStorage);
         console.warn('localStorage가 동작하지 않는 환경입니다. 다른 페이지 혹은 새로고침 했을 경우 데이터가 복원되지 않습니다.');
         return [value, setValue];
     }
