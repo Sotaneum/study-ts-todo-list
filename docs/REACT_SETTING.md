@@ -6,7 +6,7 @@
 
 ```bash
 npm install -D react react-dom @types/react @types/react-dom --registry https://registry.npmjs.com
-npm install -D ts-loader webpack webpack-cli webpack-dev-server --registry https://registry.npmjs.com
+npm install -D ts-loader webpack webpack-cli webpack-dev-server html-webpack-plugin --registry https://registry.npmjs.com
 ```
 
 ## tsconfig.json 설정
@@ -40,6 +40,11 @@ module.exports = {
   module: {
     rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }],
   },
+  plugins:[
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    })
+  ],
   devServer: {
     contentBase: './',
     publicPath: '/dist',

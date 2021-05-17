@@ -10,8 +10,8 @@
   - [x] todo 삭제
   - [x] todo 편집
 - 2차
-  - [ ] GitHub Pages 추가
-  - [ ] Actions로 Push 할 경우, Github Pages 배포
+  - [x] GitHub Pages 추가
+  - [x] Actions로 Push 할 경우, Github Pages 배포
 - 3차
   - [ ] localStorage에 값을 저장 및 불러오기
 - 4차
@@ -37,6 +37,12 @@ npm run build
 npm run dev
 ```
 
+## Deploy
+
+```bash
+npm run deploy
+```
+
 ## Demo
 
-- 준비중
+- [gh-pages](https://sotaneum.github.io/study-ts-todo-list)
