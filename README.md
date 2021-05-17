@@ -13,8 +13,7 @@
   - [x] GitHub Pages 추가
   - [x] Actions로 Push 할 경우, Github Pages 배포
 - 3차
-  - [ ] 버전 표시
-  - [ ] localStorage에 값을 저장 및 불러오기
+  - [x] localStorage에 값을 저장 및 불러오기
 - 4차
   - [ ] todo 완료 기능 추가
   - [ ] 하루 단위 리스트 표시

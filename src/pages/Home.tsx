@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import AddInput from '@/components/AddInput';
-import { Item } from '@/types';
 import ItemList from '@/components/ItemList';
 
+import { Item } from '@/types';
+import useLocalStorage from '@/hooks/useLocalStorage';
+
 const Home: React.FC = () => {
-  const [lastIdx, setLastIdx] = useState<number>(0);
-  const [items, setItems] = useState<Item[]>([]);
+  const toItems = (value: string) => {
+    return Array.from<Item>(JSON.parse(value));
+  };
+  const toLastIdx = (value: string) => {
+    return Number(value);
+  };
+
+  const [lastIdx, setLastIdx] = useLocalStorage<number>('lastIdx', 0, toLastIdx, JSON.stringify);
+  const [items, setItems] = useLocalStorage<Item[]>('items', [], toItems, JSON.stringify);
   const [newItem, setNewItem] = useState<Item>({});
 
   const handleChangeItem: React.ChangeEventHandler<HTMLInputElement> = (e) =>
