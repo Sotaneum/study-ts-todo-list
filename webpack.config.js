@@ -24,7 +24,7 @@ module.exports = {
     }),
   ],
   devServer: {
-    contentBase: './src',
+    contentBase: path.join(__dirname, 'dist'),
     publicPath: '/dist',
   },
 };

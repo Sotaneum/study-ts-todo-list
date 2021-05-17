@@ -46,7 +46,7 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: './',
+    contentBase: path.join(__dirname, 'dist'),
     publicPath: '/dist',
   },
 };
@@ -81,7 +81,6 @@ module.exports = {
   </head>
   <body>
     <div id="root"></div>
-    <script src="./dist/main.js"></script>
   </body>
 </html>
 ```
