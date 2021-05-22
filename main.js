@@ -29952,22 +29952,54 @@ exports.default = Logo;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TextItem = void 0;
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var style = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: 'calc(100vw - 608px)',
+};
+var optionStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+};
 var TextItem = function (_a) {
     var item = _a.item, onDelete = _a.onDelete, onModify = _a.onModify, onComplete = _a.onComplete;
-    var handleClickModify = function () { return onModify(item); };
+    var completeButton = react_1.useRef(null);
+    var deleteButton = react_1.useRef(null);
+    var handleClickModify = function (e) {
+        if ([completeButton.current, deleteButton.current].includes(e.target)) {
+            return;
+        }
+        onModify(item);
+    };
     var handleClickDelete = function () { return onDelete(item); };
     var handleClickComplete = function () { return onComplete(item); };
-    return (react_1.default.createElement(react_1.default.Fragment, null,
+    return (react_1.default.createElement("li", { style: style, onDoubleClick: handleClickModify },
         react_1.default.createElement("h4", { style: { textDecoration: (item === null || item === void 0 ? void 0 : item.isComplete) ? 'line-through' : 'none' } }, item.title),
-        react_1.default.createElement("button", { onClick: handleClickDelete }, "\uC0AD\uC81C"),
-        react_1.default.createElement("button", { onClick: handleClickModify }, "\uC218\uC815"),
-        react_1.default.createElement("button", { onClick: handleClickComplete }, (item === null || item === void 0 ? void 0 : item.isComplete) ? '복원' : '완료')));
+        react_1.default.createElement("div", { style: optionStyle },
+            react_1.default.createElement("button", { ref: completeButton, onClick: handleClickComplete }, (item === null || item === void 0 ? void 0 : item.isComplete) ? '취소' : '완료'),
+            react_1.default.createElement("button", { ref: deleteButton, onClick: handleClickDelete }, "\uC0AD\uC81C"))));
 };
 exports.TextItem = TextItem;
 
@@ -29987,9 +30019,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var TodoItem_1 = __webpack_require__(/*! @/components/TodoItem */ "./src/components/TodoItem.tsx");
+var listStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBlock: '0px',
+    paddingInlineStart: '0px',
+    maxHeight: 'calc(100vh - 600px)',
+    overflow: 'scroll',
+    width: 'calc(100vw - 590px)',
+};
+var style = {
+    display: 'flex',
+    justifyContent: 'center',
+};
 var TodoList = function (_a) {
     var _b = _a.items, items = _b === void 0 ? [] : _b, onDelete = _a.onDelete, onModify = _a.onModify, onComplete = _a.onComplete;
-    return (react_1.default.createElement("div", null, items.map(function (item) { return (react_1.default.createElement(TodoItem_1.TextItem, { item: item, key: item.idx, onDelete: onDelete, onModify: onModify, onComplete: onComplete })); })));
+    return (react_1.default.createElement("div", { style: style },
+        react_1.default.createElement("ul", { style: listStyle }, items.map(function (item) { return (react_1.default.createElement(TodoItem_1.TextItem, { item: item, key: item.idx, onDelete: onDelete, onModify: onModify, onComplete: onComplete })); }))));
 };
 exports.default = TodoList;
 
@@ -30117,6 +30164,13 @@ var headerStyle = {
     justifyContent: 'space-evenly',
     height: '500px',
 };
+var bodyStyle = {
+    textAlign: 'center',
+};
+var footerStyle = {
+    position: 'fixed',
+    bottom: '20px',
+};
 var Home = function () {
     var toItems = function (value) { return Array.from(JSON.parse(value)); };
     var _a = react_1.useState({}), newItem = _a[0], setNewItem = _a[1];
@@ -30166,11 +30220,14 @@ var Home = function () {
             updateItems();
         }
     };
-    return (react_1.default.createElement("div", null,
+    return (react_1.default.createElement("div", { style: bodyStyle },
         react_1.default.createElement("div", { style: headerStyle },
             react_1.default.createElement(Logo_1.default, null),
             react_1.default.createElement(AddInput_1.default, { item: newItem, onChange: handleChangeItem, onKeyUp: handleInputKeyUp })),
-        react_1.default.createElement(TodoList_1.default, { items: items, onModify: handleClickModifyItem, onDelete: handleClickItemRemove, onComplete: handleClickItemComplete })));
+        react_1.default.createElement(TodoList_1.default, { items: items, onModify: handleClickModifyItem, onDelete: handleClickItemRemove, onComplete: handleClickItemComplete }),
+        react_1.default.createElement("a", { style: footerStyle, href: 'https://github.com/Sotaneum/study-ts-todo-list' },
+            react_1.default.createElement("svg", { height: '24', viewBox: '0 0 16 16', version: '1.1', width: '24', "aria-hidden": 'true' },
+                react_1.default.createElement("path", { "fill-rule": 'evenodd', d: 'M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z' })))));
 };
 exports.default = Home;
 
