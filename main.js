@@ -2,6 +2,20 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/styles/images/backpack.png":
+/*!****************************************!*\
+  !*** ./src/styles/images/backpack.png ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "2f52a768a0f806f205a18c1c89bdd222.png");
+
+/***/ }),
+
 /***/ "./node_modules/object-assign/index.js":
 /*!*********************************************!*\
   !*** ./node_modules/object-assign/index.js ***!
@@ -29841,26 +29855,128 @@ exports.default = default_1;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var inputStyle = {
+    width: '600px',
+    height: '60px',
+    fontSize: '40px',
+    textAlign: 'center',
+    borderRadius: '5px',
+};
+var style = {};
 var AddInput = function (_a) {
-    var item = _a.item, onClick = _a.onClick, onChange = _a.onChange;
-    var isModify = !!(item === null || item === void 0 ? void 0 : item.idx);
-    return (react_1.default.createElement("div", null,
-        react_1.default.createElement("input", { value: (item === null || item === void 0 ? void 0 : item.title) || '', onChange: onChange }),
-        react_1.default.createElement("button", { onClick: onClick }, isModify ? '저장' : '추가')));
+    var item = _a.item, onChange = _a.onChange, onKeyUp = _a.onKeyUp;
+    var ref = react_1.useRef(null);
+    var _b = react_1.useState('어떤 계획을 가지고 있나요?'), placeholder = _b[0], setPlaceholder = _b[1];
+    react_1.useEffect(function () {
+        var handleKeyPress = function () { var _a; return (_a = ref === null || ref === void 0 ? void 0 : ref.current) === null || _a === void 0 ? void 0 : _a.focus(); };
+        window.addEventListener('keyup', handleKeyPress);
+        window.addEventListener('focus', handleKeyPress);
+        return function () {
+            window.removeEventListener('keyup', handleKeyPress);
+            window.removeEventListener('focus', handleKeyPress);
+        };
+    }, []);
+    react_1.useEffect(function () {
+        var text = [
+            '어떤 일을 하려고 하나요?',
+            '어떤 계획을 가지고 있나요?',
+            '해야하는 일은 어떤 것이 있나요?',
+            '혹시 청소를 해야하지 않나요?',
+            '혹시 운동을 해야하지 않나요?',
+            '어디에 전화를 해야하지 않나요?',
+        ];
+        var interval = setInterval(function () {
+            var idx = Math.floor(Math.random() * text.length);
+            setPlaceholder(text[idx]);
+        }, 1000);
+        return function () { return clearInterval(interval); };
+    }, []);
+    return (react_1.default.createElement("div", { style: style },
+        react_1.default.createElement("input", { ref: ref, style: inputStyle, value: (item === null || item === void 0 ? void 0 : item.title) || '', placeholder: placeholder, onKeyUp: onKeyUp, onChange: onChange })));
 };
 exports.default = AddInput;
 
 
 /***/ }),
 
-/***/ "./src/components/ItemList.tsx":
+/***/ "./src/components/Logo.tsx":
+/*!*********************************!*\
+  !*** ./src/components/Logo.tsx ***!
+  \*********************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var backpack_png_1 = __importDefault(__webpack_require__(/*! @/styles/images/backpack.png */ "./src/styles/images/backpack.png"));
+var style = {
+    height: '256px',
+};
+var Logo = function () {
+    return (react_1.default.createElement("div", null,
+        react_1.default.createElement("img", { src: backpack_png_1.default, style: style })));
+};
+exports.default = Logo;
+
+
+/***/ }),
+
+/***/ "./src/components/TodoItem.tsx":
 /*!*************************************!*\
-  !*** ./src/components/ItemList.tsx ***!
+  !*** ./src/components/TodoItem.tsx ***!
+  \*************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TextItem = void 0;
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var TextItem = function (_a) {
+    var item = _a.item, onDelete = _a.onDelete, onModify = _a.onModify, onComplete = _a.onComplete;
+    var handleClickModify = function () { return onModify(item); };
+    var handleClickDelete = function () { return onDelete(item); };
+    var handleClickComplete = function () { return onComplete(item); };
+    return (react_1.default.createElement(react_1.default.Fragment, null,
+        react_1.default.createElement("h4", { style: { textDecoration: (item === null || item === void 0 ? void 0 : item.isComplete) ? 'line-through' : 'none' } }, item.title),
+        react_1.default.createElement("button", { onClick: handleClickDelete }, "\uC0AD\uC81C"),
+        react_1.default.createElement("button", { onClick: handleClickModify }, "\uC218\uC815"),
+        react_1.default.createElement("button", { onClick: handleClickComplete }, (item === null || item === void 0 ? void 0 : item.isComplete) ? '복원' : '완료')));
+};
+exports.TextItem = TextItem;
+
+
+/***/ }),
+
+/***/ "./src/components/TodoList.tsx":
+/*!*************************************!*\
+  !*** ./src/components/TodoList.tsx ***!
   \*************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -29870,20 +29986,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var ItemList = function (_a) {
-    var items = _a.items, onDelete = _a.onDelete, onModify = _a.onModify, onComplete = _a.onComplete;
-    return (react_1.default.createElement("div", null, items.map(function (item) {
-        var handleClickModify = function () { return onModify(item); };
-        var handleClickDelete = function () { return onDelete(item); };
-        var handleClickComplete = function () { return onComplete(item); };
-        return (react_1.default.createElement("div", { key: item.idx },
-            react_1.default.createElement("h4", { style: { textDecoration: (item === null || item === void 0 ? void 0 : item.isComplete) ? 'line-through' : 'none' } }, item.title),
-            react_1.default.createElement("button", { onClick: handleClickDelete }, "\uC0AD\uC81C"),
-            react_1.default.createElement("button", { onClick: handleClickModify }, "\uC218\uC815"),
-            react_1.default.createElement("button", { onClick: handleClickComplete }, (item === null || item === void 0 ? void 0 : item.isComplete) ? '복원' : '완료')));
-    })));
+var TodoItem_1 = __webpack_require__(/*! @/components/TodoItem */ "./src/components/TodoItem.tsx");
+var TodoList = function (_a) {
+    var _b = _a.items, items = _b === void 0 ? [] : _b, onDelete = _a.onDelete, onModify = _a.onModify, onComplete = _a.onComplete;
+    return (react_1.default.createElement("div", null, items.map(function (item) { return (react_1.default.createElement(TodoItem_1.TextItem, { item: item, key: item.idx, onDelete: onDelete, onModify: onModify, onComplete: onComplete })); })));
 };
-exports.default = ItemList;
+exports.default = TodoList;
 
 
 /***/ }),
@@ -29998,9 +30106,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var Logo_1 = __importDefault(__webpack_require__(/*! @/components/Logo */ "./src/components/Logo.tsx"));
 var AddInput_1 = __importDefault(__webpack_require__(/*! @/components/AddInput */ "./src/components/AddInput.tsx"));
-var ItemList_1 = __importDefault(__webpack_require__(/*! @/components/ItemList */ "./src/components/ItemList.tsx"));
+var TodoList_1 = __importDefault(__webpack_require__(/*! @/components/TodoList */ "./src/components/TodoList.tsx"));
 var useLocalStorage_1 = __importDefault(__webpack_require__(/*! @/hooks/useLocalStorage */ "./src/hooks/useLocalStorage.ts"));
+var headerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    height: '500px',
+};
 var Home = function () {
     var toItems = function (value) { return Array.from(JSON.parse(value)); };
     var _a = react_1.useState({}), newItem = _a[0], setNewItem = _a[1];
@@ -30013,14 +30129,28 @@ var Home = function () {
         return newIdx;
     };
     // Item
+    var toTrim = function (item) { return (__assign(__assign({}, item), { title: item.title.trim() })); };
+    var beforeSaveItem = function (item) { return toTrim(item); };
     var setItemTitle = function (item, title) { return (__assign(__assign({}, item), { title: title })); };
     var setItemIndex = function (item, index) { return (__assign(__assign({}, item), { idx: index })); };
     var setItemStatus = function (item, isComplete) { return (__assign(__assign({}, item), { isComplete: isComplete })); };
+    var setItemDate = function (item, date) { return (__assign(__assign({}, item), { date: date })); };
+    var newSaveItem = function (item) {
+        return setItemDate(setItemIndex(item, getNewIdx()), new Date().toString());
+    };
     // Item[]
-    var addItem = function (targetItem) { return __spreadArray(__spreadArray([], items), [setItemIndex(targetItem, getNewIdx())]); };
+    var addItem = function (targetItem) { return __spreadArray(__spreadArray([], items), [beforeSaveItem(newSaveItem(targetItem))]); };
     var removeItem = function (targetItem) { return items.filter(function (item) { return item.idx !== targetItem.idx; }); };
     var replaceItem = function (targetItem) {
-        return items.map(function (prevItem) { return (prevItem.idx !== targetItem.idx ? prevItem : targetItem); });
+        return items.map(function (prevItem) { return (prevItem.idx !== targetItem.idx ? prevItem : beforeSaveItem(targetItem)); });
+    };
+    var updateItems = function () {
+        var _a = newItem.title, title = _a === void 0 ? '' : _a;
+        if (!title.trim()) {
+            return;
+        }
+        setItems(!!(newItem === null || newItem === void 0 ? void 0 : newItem.idx) ? replaceItem(newItem) : addItem(newItem));
+        clearNewItem();
     };
     // handler
     var handleClickItemRemove = function (item) { return setItems(removeItem(item)); };
@@ -30031,13 +30161,16 @@ var Home = function () {
     var handleClickItemComplete = function (item) {
         return setItems(replaceItem(setItemStatus(item, !(item === null || item === void 0 ? void 0 : item.isComplete))));
     };
-    var handleClickAddItem = function () {
-        setItems(!!(newItem === null || newItem === void 0 ? void 0 : newItem.idx) ? replaceItem(newItem) : addItem(newItem));
-        clearNewItem();
+    var handleInputKeyUp = function (e) {
+        if (e.key === 'Enter') {
+            updateItems();
+        }
     };
     return (react_1.default.createElement("div", null,
-        react_1.default.createElement(AddInput_1.default, { item: newItem, onClick: handleClickAddItem, onChange: handleChangeItem }),
-        react_1.default.createElement(ItemList_1.default, { items: items, onModify: handleClickModifyItem, onDelete: handleClickItemRemove, onComplete: handleClickItemComplete })));
+        react_1.default.createElement("div", { style: headerStyle },
+            react_1.default.createElement(Logo_1.default, null),
+            react_1.default.createElement(AddInput_1.default, { item: newItem, onChange: handleChangeItem, onKeyUp: handleInputKeyUp })),
+        react_1.default.createElement(TodoList_1.default, { items: items, onModify: handleClickModifyItem, onDelete: handleClickItemRemove, onComplete: handleClickItemComplete })));
 };
 exports.default = Home;
 
@@ -30069,6 +30202,67 @@ exports.default = Home;
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 /******/ 	
