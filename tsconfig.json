@@ -17,6 +17,6 @@
     } /* import의 기본 위치를 지정합니다. */,
     "jsx": "react"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "index.d.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
