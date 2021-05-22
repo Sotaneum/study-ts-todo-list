@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Item } from '@/types';
 
 type TextItemProps = {
@@ -8,17 +8,39 @@ type TextItemProps = {
   onComplete?: (item: Item) => void;
 };
 
-export const TextItem: React.FC<TextItemProps> = ({ item, onDelete, onModify, onComplete }) => {
-  const handleClickModify: React.MouseEventHandler = () => onModify(item);
-  const handleClickDelete: React.MouseEventHandler = () => onDelete(item);
-  const handleClickComplete: React.MouseEventHandler = () => onComplete(item);
+const style: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: 'calc(100vw - 608px)',
+};
 
+const optionStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'space-between',
+};
+
+export const TextItem: React.FC<TextItemProps> = ({ item, onDelete, onModify, onComplete }) => {
+  const completeButton = useRef(null);
+  const deleteButton = useRef(null);
+  const handleClickModify: React.MouseEventHandler = (e): void => {
+    if ([completeButton.current, deleteButton.current].includes(e.target)) {
+      return;
+    }
+    onModify(item);
+  };
+  const handleClickDelete: React.MouseEventHandler = (): void => onDelete(item);
+  const handleClickComplete: React.MouseEventHandler = (): void => onComplete(item);
   return (
-    <>
+    <li style={style} onDoubleClick={handleClickModify}>
       <h4 style={{ textDecoration: item?.isComplete ? 'line-through' : 'none' }}>{item.title}</h4>
-      <button onClick={handleClickDelete}>삭제</button>
-      <button onClick={handleClickModify}>수정</button>
-      <button onClick={handleClickComplete}>{item?.isComplete ? '복원' : '완료'}</button>
-    </>
+      <div style={optionStyle}>
+        <button ref={completeButton} onClick={handleClickComplete}>
+          {item?.isComplete ? '취소' : '완료'}
+        </button>
+        <button ref={deleteButton} onClick={handleClickDelete}>
+          삭제
+        </button>
+      </div>
+    </li>
   );
 };
